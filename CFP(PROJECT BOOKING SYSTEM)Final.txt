@@ -1,0 +1,204 @@
+ #include <stdio.h>
+#include <string.h>
+int tickets;
+int bookedseatnumbers[31]={0};
+int bookedseats;
+int seats=30;
+char name[50];
+int option;
+int seat2[10]={0};
+int price;
+void route(void) {
+    printf("\n==============================================\n");
+    printf("BUS ROUTES AND SCHEDULE:\n");
+    printf("Departure\t        Arrival\t         Time\n");
+    printf("1.Sialkot\t        Islamabad\t 3.30 p.m\n");
+    printf("2.Gujrat\t        Lahore\t         12.00 a.m\n");
+    printf("3.Sialkot\t        Karachi\t         8.00 p.m\n");
+    printf("4.Peshawar\t        Multan\t         7.30 a.m\n");
+    printf("5.Jehlum\t        Peshawar\t 5.40 p.m\n");
+    return;
+}
+void reserve(void){
+    printf("\nTotal Seats are:30 \n");
+    if(seats==bookedseats) {
+        printf("\nAll seats are reserved!"); }
+        else  {
+        printf("\nThere are seats available."); }
+        return;
+    }
+     void isl(void){
+    int cash1;
+    printf("Your amount to be paid is %d\n",price);
+     printf("Enter your amount:\n");
+            scanf("%d",&cash1);
+            if(cash1==price){
+                printf("Your amount is recieved successfully!\n");
+            }
+            else {
+                printf("Your amount is invalid.\n");
+               isl();
+               }
+               return ;
+     }  
+         void seatnumber(void){
+             int i=0;
+             int temp[10]={0};
+             while(i<tickets){
+        printf("\nEnter seat number for ticket %d:\n",i+1);
+        scanf("%d", &temp[i]);
+        if(temp[i]<1 || temp[i]>30){
+            printf("\nSeat number should be between 1 and 30. \n");
+            continue;
+            }
+            if(bookedseatnumbers[temp[i]-1]==1){
+                printf("\nSeat is already taken:( Choose another seat.\n");
+                continue;
+            }
+            seat2[i]=temp[i];
+            bookedseatnumbers[temp[i]-1]=1;
+            seats=seats-1;
+            printf("The remaining seats are :%d\n",seats);
+        i++;
+             }
+        isl();
+               printf("\nYOUR TICKET HAS BEEN BOOKED SUCCESSFULLY :)\n");
+        return ;
+    }
+    void book(void){
+        printf("\nEnter your name without spaces:");
+        scanf("%s",name);
+        printf("\nEnter number of tickets:");
+        scanf("%d",&tickets);
+        if(tickets>seats){
+            printf("Not enough tickets  </////>\n");
+            return;
+        }
+        printf("\nChoose your destination by pressing a number between 1-5 from the table of BUS ROUTES:\n");
+        scanf("%d",&option);
+        switch(option){
+            case 1:
+            price=2000;
+            printf("Your destination is Islamabad.\n");
+            break;
+            case 2:
+            price=1200;
+            printf("Your destination is Lahore.\n");
+            break;
+            case 3:
+            price=6000;
+            printf("Your destination is Karachi.\n");
+            break;
+            case 4:
+            price=4500;
+            printf("Your destination is Multan.\n");
+            break;
+            case 5:
+            price=2500;
+            printf("Your destination is Peshawar.\n");
+            break;
+            default:
+            printf("\nInvalid routes.Choose between 1-5\n");
+        return;
+    }  
+    price=price*tickets;
+    printf("Total fare for %d tickets is Rs.%d",tickets,price);
+    seatnumber();
+    }
+    void view(void){
+        int i;
+        if(tickets==0){
+            printf("\nNo Booking yet !\n");
+            return;
+        }
+    printf("\nName:%s\n",name);
+         printf("Seat Booked :\n");
+         for(i=0;i<tickets;i++){
+             printf("%d\n",seat2[i]);
+         }
+         printf("Total Ticket :%d\n",tickets);
+         switch(option){
+             case 1:
+             printf("Departure\tDestination\tFare\n");
+             printf("Sialkot\t        Islambad\tRs.%d\n",price);
+             break;
+              case 2:
+             printf("Departure\tDestination\tFare\n");
+             printf("Gujrat\t        Lahore\t       Rs.%d\n",price);
+             break;
+              case 3:
+             printf("Departure\tDestination\tFare\n");
+             printf("Sialkot\t        Karachi\t       Rs.%d\n",price);
+             break;
+              case 4:
+             printf("Departure\tDestination\tFare\n");
+             printf("Peshawar\t Multan\t        Rs.%d\n",price);
+             break;
+              case 5:
+             printf("Departure\tDestination\tFare\n");
+             printf("Jehlum\t        Peshawar\t      Rs.%d\n",price);
+             break;
+         }
+      return ; }
+    void cancel(void){
+        if(tickets==0){
+            printf("\nThere is no ticket to be cancelled\n");
+            return ;
+        }
+           else{ 
+               for(int i=0;i<tickets;i++){
+                   bookedseatnumbers[seat2[i]]=0;
+                   seat2[i]=0;
+               }
+               seats += tickets;
+               tickets=0;
+               price=0;
+               
+        printf("\nYour ticket(s) cancelled.\nFare will be returned within 2 hours."); 
+               printf("\nSeats left:%d",seats);
+           }
+        return ;
+    }
+int main() { 
+    int choice; 
+    printf("-----------------------------------\n");
+   printf("   Bus Ticket Reservation   \n");
+   printf("         System        \n");
+     printf("----------------------------------\n");
+     do{
+        printf("\n~~~~~~~~~~~~~~~\n");
+     printf("1.Bus routes and Fares\n");
+     printf("2.View reservations\n");
+      printf("3.Book a ticket\n");
+     printf("4.View your ticket\n");
+     printf("5.Cancel the ticket\n");
+     printf("6.Exit!\n");
+         printf("\n***************");
+     printf("\nEnter your choice between 1-6:");
+     scanf("%d",&choice);
+     switch(choice){
+         case 1:
+         route();
+         break;
+         case 2:
+         reserve();
+         break;
+         case 3:
+         book();
+         break;
+         case 4:
+         view();
+         break;
+         case 5:
+        cancel(); 
+        break;
+        case 6:
+         printf("Thank you!You are done.");
+         break;
+         default:
+         printf("Invalid choice. Please choose between 1-6.\n");
+     }
+    }
+     while(choice!=6);
+ return 0;
+}
